@@ -11,7 +11,7 @@ import { AppService } from './app.service';
         type: 'postgres',
         url: process.env.DATABASE_URL,
         autoLoadEntities: true,
-        synchronize: false,          // true only for quick local dev, keep false in prod
+        synchronize: process.env.NODE_ENV === 'development' ? true : false,
         ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
       }),
     }),

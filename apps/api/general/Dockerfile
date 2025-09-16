@@ -2,8 +2,10 @@ FROM node:20-slim as builder
 WORKDIR /app-runner-workspace
 COPY package*.json nx.json tsconfig*.json ./
 COPY apps apps
+ENV NX_DAEMON=false CI=1
+ENV npm_config_fund=false npm_config_audit=false
 RUN npm ci
-RUN npx nx build general
+RUN npx --yes nx build general --verbose
 
 FROM node:20-slim
 WORKDIR /app
