@@ -1,0 +1,36 @@
+services:
+  api:
+    build:
+      context: ./src/app-runner
+      dockerfile: apps/api/general/Dockerfile
+    container_name: api
+    restart: unless-stopped
+    env_file: ./env/api.env
+    networks: [appnet]
+
+  web:
+    build:
+      context: /srv/src/app-runner
+      dockerfile: apps/web/root/Dockerfile
+    container_name: web
+    restart: unless-stopped
+    env_file: ./env/web.env
+    networks: [appnet]
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - api
+      - web
+    networks: [appnet]
+
+networks:
+  appnet:
