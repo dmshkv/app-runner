@@ -13,6 +13,12 @@ RUN npm ci --omit=optional --no-audit --no-fund
 # Copy source code
 COPY apps apps
 
+ENV CI=1 \
+    NX_DAEMON=false \
+    NODE_OPTIONS="--max_old_space_size=512" \
+    npm_config_fund=false \
+    npm_config_audit=false
+
 # Build the root app
 RUN npx nx build root
 
