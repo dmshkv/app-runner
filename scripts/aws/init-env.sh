@@ -4,7 +4,7 @@ set -euo pipefail
 # Initialize local environment variables from AWS
 # Usage: ./scripts/aws/init-env.sh [profile] [environment]
 
-PROFILE="${1:-${AWS_PROFILE:-dmieshkov}}"
+PROFILE="${1:-${AWS_PROFILE:-default}}"
 ENVIRONMENT="${2:-local}"
 ENV_FILE=".env.${ENVIRONMENT}"
 

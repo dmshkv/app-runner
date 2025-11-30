@@ -9,7 +9,7 @@ set -euo pipefail
 
 ENVIRONMENT="${1:-dev}"
 SERVICE="${2:-all}"
-PROFILE="${AWS_PROFILE:-dmieshkov}"
+PROFILE="${AWS_PROFILE:-default}"
 
 # Load environment config
 if [ ! -f ".env.${ENVIRONMENT}" ]; then

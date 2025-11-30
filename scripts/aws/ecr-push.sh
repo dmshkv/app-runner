@@ -4,12 +4,12 @@ set -euo pipefail
 # Build and push Docker images to ECR
 # Usage: ./scripts/aws/ecr-push.sh [service] [profile] [tag]
 # Examples:
-#   ./scripts/aws/ecr-push.sh api dmieshkov latest
-#   ./scripts/aws/ecr-push.sh web dmieshkov v1.0.0
-#   ./scripts/aws/ecr-push.sh all dmieshkov $(git rev-parse --short HEAD)
+#   ./scripts/aws/ecr-push.sh api myprofile latest
+#   ./scripts/aws/ecr-push.sh web myprofile v1.0.0
+#   ./scripts/aws/ecr-push.sh all myprofile $(git rev-parse --short HEAD)
 
 SERVICE="${1:-all}"
-PROFILE="${2:-${AWS_PROFILE:-dmieshkov}}"
+PROFILE="${2:-${AWS_PROFILE:-default}}"
 TAG="${3:-latest}"
 
 # Load AWS config

@@ -6,7 +6,7 @@ set -euo pipefail
 # Commands: status, backup, restore, logs, connect
 
 COMMAND="${1:-status}"
-PROFILE="${2:-${AWS_PROFILE:-dmieshkov}}"
+PROFILE="${2:-${AWS_PROFILE:-default}}"
 DB_INSTANCE="app-runner-db"
 
 case $COMMAND in

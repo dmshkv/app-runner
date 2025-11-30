@@ -12,28 +12,28 @@ help: ## Show this help message
 
 # AWS Commands
 aws-init: ## Initialize AWS environment variables (e.g., make aws-init ENV=dev)
-	@./scripts/aws/init-env.sh dmieshkov $(ENV)
+	@./scripts/aws/init-env.sh $${AWS_PROFILE:-default} $(ENV)
 	@echo "$(GREEN)✓ Environment initialized$(NC)"
 
 aws-status: ## Show AWS infrastructure status
 	@echo "$(BLUE)Database Status:$(NC)"
-	@./scripts/aws/db-commands.sh status dmieshkov
+	@./scripts/aws/db-commands.sh status $${AWS_PROFILE:-default}
 	@echo ""
 	@echo "$(BLUE)AWS Account:$(NC)"
-	@aws sts get-caller-identity --profile dmieshkov --output table
+	@aws sts get-caller-identity --profile $${AWS_PROFILE:-default} --output table
 
 aws-backup: ## Create RDS backup
-	@./scripts/aws/db-commands.sh backup dmieshkov
-	@echo "$(GREEN)✓ Backup created$(NC)"
+	@./scripts/aws/db-commands.sh backup $${AWS_PROFILE:-default}
+	@echo "$(GREEN)✓$(NC) Backup created"
 
 aws-backups: ## List recent backups
-	@./scripts/aws/db-commands.sh backups dmieshkov
+	@./scripts/aws/db-commands.sh backups $${AWS_PROFILE:-default}
 
 aws-info: ## Show detailed AWS info
-	@./scripts/aws/db-commands.sh info dmieshkov
+	@./scripts/aws/db-commands.sh info $${AWS_PROFILE:-default}
 
 aws-logs: ## Show database logs
-	@./scripts/aws/db-commands.sh logs dmieshkov
+	@./scripts/aws/db-commands.sh logs $${AWS_PROFILE:-default}
 
 # Build & Test Commands
 lint: ## Run ESLint on all apps
@@ -57,12 +57,12 @@ docker-build: ## Build Docker images locally
 
 docker-push-dev: ## Push images to ECR with dev tag
 	@echo "$(BLUE)Pushing to ECR (dev)...$(NC)"
-	@./scripts/aws/ecr-push.sh all dmieshkov dev
+	@./scripts/aws/ecr-push.sh all $${AWS_PROFILE:-default} dev
 	@echo "$(GREEN)✓ Images pushed$(NC)"
 
 docker-push-prod: ## Push images to ECR with prod tag
 	@echo "$(BLUE)Pushing to ECR (prod)...$(NC)"
-	@./scripts/aws/ecr-push.sh all dmieshkov latest
+	@./scripts/aws/ecr-push.sh all $${AWS_PROFILE:-default} latest
 	@echo "$(GREEN)✓ Images pushed$(NC)"
 
 # Deploy Commands
@@ -108,4 +108,4 @@ check-env: ## Validate environment setup
 	@command -v aws >/dev/null 2>&1 && echo "$(GREEN)✓$(NC) AWS CLI" || echo "$(YELLOW)✗$(NC) AWS CLI not found"
 	@command -v docker >/dev/null 2>&1 && echo "$(GREEN)✓$(NC) Docker" || echo "$(YELLOW)✗$(NC) Docker not found"
 	@command -v npx >/dev/null 2>&1 && echo "$(GREEN)✓$(NC) Node.js/npm" || echo "$(YELLOW)✗$(NC) Node.js not found"
-	@aws sts get-caller-identity --profile $${AWS_PROFILE:-dmieshkov} >/dev/null 2>&1 && echo "$(GREEN)✓$(NC) AWS credentials" || echo "$(YELLOW)✗$(NC) AWS credentials not found"
+	@aws sts get-caller-identity --profile $${AWS_PROFILE:-default} >/dev/null 2>&1 && echo "$(GREEN)✓$(NC) AWS credentials" || echo "$(YELLOW)✗$(NC) AWS credentials not found"

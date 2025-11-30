@@ -10,8 +10,9 @@ This guide explains how to use AWS CLI and local scripts to simplify development
 # Generate environment variables from AWS resources
 make aws-init ENV=dev
 
-# Or manually:
-./scripts/aws/init-env.sh dmieshkov dev
+# Or manually (with AWS_PROFILE set):
+export AWS_PROFILE=myprofile
+./scripts/aws/init-env.sh
 
 # Then update .env.dev with your database password
 source .env.dev
@@ -165,7 +166,7 @@ AWS_ROLE_TO_ASSUME: arn:aws:iam::<YOUR_ACCOUNT_ID>:role/github-actions-role
 
 ```bash
 # Create IAM role with ECR and ECS permissions
-# Note: Replace 503411876186 with your actual AWS Account ID
+# Note: Replace <YOUR_ACCOUNT_ID> and <YOUR_PROFILE_NAME> with actual values
 aws iam create-role \
   --role-name github-actions-role \
   --assume-role-policy-document '{
@@ -184,13 +185,13 @@ aws iam create-role \
       }
     }]
   }' \
-  --profile dmieshkov
+  --profile $AWS_PROFILE
 
 # Attach ECR permissions
 aws iam attach-role-policy \
   --role-name github-actions-role \
   --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser \
-  --profile dmieshkov
+  --profile $AWS_PROFILE
 ```
 
 ## Environment Files
@@ -204,7 +205,7 @@ Production environment pointing to production database.
 **Format:**
 ```bash
 # AWS Configuration
-AWS_PROFILE=dmieshkov
+AWS_PROFILE=<YOUR_PROFILE_NAME>
 AWS_REGION=ca-central-1
 AWS_ACCOUNT_ID=<YOUR_ACCOUNT_ID>
 
@@ -228,20 +229,20 @@ WEB_PORT=3001
 
 ```bash
 # Check credentials
-aws sts get-caller-identity --profile dmieshkov
+aws sts get-caller-identity --profile $AWS_PROFILE
 
-# Set default profile
-export AWS_PROFILE=dmieshkov
+# Set AWS profile
+export AWS_PROFILE=myprofile
 
 # Verify region
-aws configure get region --profile dmieshkov
+aws configure get region --profile $AWS_PROFILE
 ```
 
 ### Docker Issues
 
 ```bash
 # Login to ECR again
-aws ecr get-login-password --region ca-central-1 --profile dmieshkov | \
+aws ecr get-login-password --region ca-central-1 --profile $AWS_PROFILE | \
   docker login --username AWS --password-stdin <YOUR_ACCOUNT_ID>.dkr.ecr.ca-central-1.amazonaws.com
 
 # Check image
@@ -267,7 +268,7 @@ make aws-info
 make deploy-prod
 
 # 2. Verify images in ECR
-aws ecr describe-images --repository-name app-runner-api --profile dmieshkov
+aws ecr describe-images --repository-name app-runner-api --profile $AWS_PROFILE
 
 # 3. Update your ECS/App Runner service with new image tags
 # 4. Monitor deployment
@@ -297,8 +298,8 @@ make aws-backups  # Verify
 ### Build Specific Service
 
 ```bash
-./scripts/aws/ecr-push.sh api dmieshkov latest      # Only API
-./scripts/aws/ecr-push.sh web dmieshkov v1.0.0      # Only Web with tag
+./scripts/aws/ecr-push.sh api myprofile latest      # Only API
+./scripts/aws/ecr-push.sh web myprofile v1.0.0      # Only Web with tag
 ```
 
 ### View Deployment Artifacts
