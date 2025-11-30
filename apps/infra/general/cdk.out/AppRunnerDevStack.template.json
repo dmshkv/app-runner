@@ -1,0 +1,1396 @@
+{
+ "Description": "App Runner infrastructure for dev environment",
+ "Resources": {
+  "devvpc91497180": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/Resource"
+   }
+  },
+  "devvpcdevpublicSubnet1SubnetA53D93A6": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ca-central-1a",
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "dev-public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1/Subnet"
+   }
+  },
+  "devvpcdevpublicSubnet1RouteTable2E016CF3": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1/RouteTable"
+   }
+  },
+  "devvpcdevpublicSubnet1RouteTableAssociationF7618A5A": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "devvpcdevpublicSubnet1RouteTable2E016CF3"
+    },
+    "SubnetId": {
+     "Ref": "devvpcdevpublicSubnet1SubnetA53D93A6"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1/RouteTableAssociation"
+   }
+  },
+  "devvpcdevpublicSubnet1DefaultRoute2E2DE0E0": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "devvpcIGW7D664B58"
+    },
+    "RouteTableId": {
+     "Ref": "devvpcdevpublicSubnet1RouteTable2E016CF3"
+    }
+   },
+   "DependsOn": [
+    "devvpcVPCGW7C912A36"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1/DefaultRoute"
+   }
+  },
+  "devvpcdevpublicSubnet1EIP118E9B22": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1/EIP"
+   }
+  },
+  "devvpcdevpublicSubnet1NATGatewayC3BF1C77": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "devvpcdevpublicSubnet1EIP118E9B22",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "devvpcdevpublicSubnet1SubnetA53D93A6"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "devvpcdevpublicSubnet1DefaultRoute2E2DE0E0",
+    "devvpcdevpublicSubnet1RouteTableAssociationF7618A5A"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet1/NATGateway"
+   }
+  },
+  "devvpcdevpublicSubnet2SubnetF161DD00": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ca-central-1b",
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "dev-public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-publicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet2/Subnet"
+   }
+  },
+  "devvpcdevpublicSubnet2RouteTable3AA2D573": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-publicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet2/RouteTable"
+   }
+  },
+  "devvpcdevpublicSubnet2RouteTableAssociationEAADCEE8": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "devvpcdevpublicSubnet2RouteTable3AA2D573"
+    },
+    "SubnetId": {
+     "Ref": "devvpcdevpublicSubnet2SubnetF161DD00"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet2/RouteTableAssociation"
+   }
+  },
+  "devvpcdevpublicSubnet2DefaultRoute47975525": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "devvpcIGW7D664B58"
+    },
+    "RouteTableId": {
+     "Ref": "devvpcdevpublicSubnet2RouteTable3AA2D573"
+    }
+   },
+   "DependsOn": [
+    "devvpcVPCGW7C912A36"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-publicSubnet2/DefaultRoute"
+   }
+  },
+  "devvpcdevprivateSubnet1SubnetD0F4920C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ca-central-1a",
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "dev-private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-privateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-privateSubnet1/Subnet"
+   }
+  },
+  "devvpcdevprivateSubnet1RouteTable80F6B1F4": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-privateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-privateSubnet1/RouteTable"
+   }
+  },
+  "devvpcdevprivateSubnet1RouteTableAssociationEBFF4CFB": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "devvpcdevprivateSubnet1RouteTable80F6B1F4"
+    },
+    "SubnetId": {
+     "Ref": "devvpcdevprivateSubnet1SubnetD0F4920C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-privateSubnet1/RouteTableAssociation"
+   }
+  },
+  "devvpcdevprivateSubnet1DefaultRoute8C2DBF6A": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "devvpcdevpublicSubnet1NATGatewayC3BF1C77"
+    },
+    "RouteTableId": {
+     "Ref": "devvpcdevprivateSubnet1RouteTable80F6B1F4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-privateSubnet1/DefaultRoute"
+   }
+  },
+  "devvpcdevprivateSubnet2SubnetC0D78214": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ca-central-1b",
+    "CidrBlock": "10.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "dev-private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-privateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-privateSubnet2/Subnet"
+   }
+  },
+  "devvpcdevprivateSubnet2RouteTableC999860B": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-privateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-privateSubnet2/RouteTable"
+   }
+  },
+  "devvpcdevprivateSubnet2RouteTableAssociation35AFCD3D": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "devvpcdevprivateSubnet2RouteTableC999860B"
+    },
+    "SubnetId": {
+     "Ref": "devvpcdevprivateSubnet2SubnetC0D78214"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-privateSubnet2/RouteTableAssociation"
+   }
+  },
+  "devvpcdevprivateSubnet2DefaultRouteB50FD7B0": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "devvpcdevpublicSubnet1NATGatewayC3BF1C77"
+    },
+    "RouteTableId": {
+     "Ref": "devvpcdevprivateSubnet2RouteTableC999860B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-privateSubnet2/DefaultRoute"
+   }
+  },
+  "devvpcdevdbSubnet1SubnetEFA3CE2D": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ca-central-1a",
+    "CidrBlock": "10.0.4.0/28",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "dev-db"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-dbSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-dbSubnet1/Subnet"
+   }
+  },
+  "devvpcdevdbSubnet1RouteTable070D37BE": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-dbSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-dbSubnet1/RouteTable"
+   }
+  },
+  "devvpcdevdbSubnet1RouteTableAssociation2F4EB1DC": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "devvpcdevdbSubnet1RouteTable070D37BE"
+    },
+    "SubnetId": {
+     "Ref": "devvpcdevdbSubnet1SubnetEFA3CE2D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-dbSubnet1/RouteTableAssociation"
+   }
+  },
+  "devvpcdevdbSubnet2Subnet9B6AB9FA": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "ca-central-1b",
+    "CidrBlock": "10.0.4.16/28",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "dev-db"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-dbSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-dbSubnet2/Subnet"
+   }
+  },
+  "devvpcdevdbSubnet2RouteTableB681ACCF": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc/dev-dbSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-dbSubnet2/RouteTable"
+   }
+  },
+  "devvpcdevdbSubnet2RouteTableAssociation09EC3B93": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "devvpcdevdbSubnet2RouteTableB681ACCF"
+    },
+    "SubnetId": {
+     "Ref": "devvpcdevdbSubnet2Subnet9B6AB9FA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/dev-dbSubnet2/RouteTableAssociation"
+   }
+  },
+  "devvpcIGW7D664B58": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AppRunnerDevStack/dev-vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/IGW"
+   }
+  },
+  "devvpcVPCGW7C912A36": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "devvpcIGW7D664B58"
+    },
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-vpc/VPCGW"
+   }
+  },
+  "devalbsg7E4D78DE": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "ALB security group for dev",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow HTTP",
+      "FromPort": 80,
+      "IpProtocol": "tcp",
+      "ToPort": 80
+     },
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow HTTPS",
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-alb-sg/Resource"
+   }
+  },
+  "devecssg4E8E432A": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "ECS security group for dev",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-ecs-sg/Resource"
+   }
+  },
+  "devecssgfromAppRunnerDevStackdevalbsg65FD40BEALLPORTSD1AF95B2": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow from ALB",
+    "FromPort": 0,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "devecssg4E8E432A",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "devalbsg7E4D78DE",
+      "GroupId"
+     ]
+    },
+    "ToPort": 65535
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-ecs-sg/from AppRunnerDevStackdevalbsg65FD40BE:ALL PORTS"
+   }
+  },
+  "devecssgfromAppRunnerDevStackdevalbsg65FD40BE30000E3E4EB9": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Load balancer to target",
+    "FromPort": 3000,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "devecssg4E8E432A",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "devalbsg7E4D78DE",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3000
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-ecs-sg/from AppRunnerDevStackdevalbsg65FD40BE:3000"
+   }
+  },
+  "devecssgfromAppRunnerDevStackdevalbsg65FD40BE3001E07D95E2": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Load balancer to target",
+    "FromPort": 3001,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "devecssg4E8E432A",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "devalbsg7E4D78DE",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3001
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-ecs-sg/from AppRunnerDevStackdevalbsg65FD40BE:3001"
+   }
+  },
+  "devdbsgDDB2B1CD": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "RDS security group for dev",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "255.255.255.255/32",
+      "Description": "Disallow all traffic",
+      "FromPort": 252,
+      "IpProtocol": "icmp",
+      "ToPort": 86
+     }
+    ],
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-db-sg/Resource"
+   }
+  },
+  "devdbsgfromAppRunnerDevStackdevecssgD8310DE354326181CBC8": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow PostgreSQL from ECS",
+    "FromPort": 5432,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "devdbsgDDB2B1CD",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "devecssg4E8E432A",
+      "GroupId"
+     ]
+    },
+    "ToPort": 5432
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-db-sg/from AppRunnerDevStackdevecssgD8310DE3:5432"
+   }
+  },
+  "devcluster594B334F": {
+   "Type": "AWS::ECS::Cluster",
+   "Properties": {
+    "ClusterName": "app-runner-dev",
+    "ClusterSettings": [
+     {
+      "Name": "containerInsights",
+      "Value": "disabled"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-cluster/Resource"
+   }
+  },
+  "devapilogs583191F8": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/ecs/app-runner-api-dev",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-api-logs/Resource"
+   }
+  },
+  "devweblogs1569C3D2": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/ecs/app-runner-web-dev",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-web-logs/Resource"
+   }
+  },
+  "devalbA03094B9": {
+   "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+   "Properties": {
+    "LoadBalancerAttributes": [
+     {
+      "Key": "deletion_protection.enabled",
+      "Value": "false"
+     }
+    ],
+    "Name": "app-runner-dev",
+    "Scheme": "internet-facing",
+    "SecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "devalbsg7E4D78DE",
+       "GroupId"
+      ]
+     }
+    ],
+    "Subnets": [
+     {
+      "Ref": "devvpcdevpublicSubnet1SubnetA53D93A6"
+     },
+     {
+      "Ref": "devvpcdevpublicSubnet2SubnetF161DD00"
+     }
+    ],
+    "Type": "application"
+   },
+   "DependsOn": [
+    "devvpcdevpublicSubnet1DefaultRoute2E2DE0E0",
+    "devvpcdevpublicSubnet1RouteTableAssociationF7618A5A",
+    "devvpcdevpublicSubnet2DefaultRoute47975525",
+    "devvpcdevpublicSubnet2RouteTableAssociationEAADCEE8"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-alb/Resource"
+   }
+  },
+  "devalbhttp88D16E80": {
+   "Type": "AWS::ElasticLoadBalancingV2::Listener",
+   "Properties": {
+    "DefaultActions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "devalbhttpwebGroup24196BBD"
+      },
+      "Type": "forward"
+     }
+    ],
+    "LoadBalancerArn": {
+     "Ref": "devalbA03094B9"
+    },
+    "Port": 80,
+    "Protocol": "HTTP"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-alb/http/Resource"
+   }
+  },
+  "devalbhttpapiGroup465BAB2A": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckPath": "/api",
+    "Matcher": {
+     "HttpCode": "200-499"
+    },
+    "Port": 3000,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-alb/http/apiGroup/Resource"
+   }
+  },
+  "devalbhttpapiRule8ED30585": {
+   "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+   "Properties": {
+    "Actions": [
+     {
+      "TargetGroupArn": {
+       "Ref": "devalbhttpapiGroup465BAB2A"
+      },
+      "Type": "forward"
+     }
+    ],
+    "Conditions": [
+     {
+      "Field": "path-pattern",
+      "PathPatternConfig": {
+       "Values": [
+        "/api/*"
+       ]
+      }
+     }
+    ],
+    "ListenerArn": {
+     "Ref": "devalbhttp88D16E80"
+    },
+    "Priority": 1
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-alb/http/apiRule/Resource"
+   }
+  },
+  "devalbhttpwebGroup24196BBD": {
+   "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+   "Properties": {
+    "HealthCheckPath": "/",
+    "Port": 3001,
+    "Protocol": "HTTP",
+    "TargetGroupAttributes": [
+     {
+      "Key": "stickiness.enabled",
+      "Value": "false"
+     }
+    ],
+    "TargetType": "ip",
+    "VpcId": {
+     "Ref": "devvpc91497180"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-alb/http/webGroup/Resource"
+   }
+  },
+  "devapitaskTaskRoleB7426BD1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-api-task/TaskRole/Resource"
+   }
+  },
+  "devapitaskF44EAC0E": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "NODE_ENV",
+        "Value": "dev"
+       },
+       {
+        "Name": "PORT",
+        "Value": "3000"
+       }
+      ],
+      "Essential": true,
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         "503411876186.dkr.ecr.ca-central-1.",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/app-runner-api:latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "devapilogs583191F8"
+        },
+        "awslogs-stream-prefix": "ecs",
+        "awslogs-region": "ca-central-1"
+       }
+      },
+      "Name": "api",
+      "PortMappings": [
+       {
+        "ContainerPort": 3000,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "devapitaskExecutionRoleCDB29E37",
+      "Arn"
+     ]
+    },
+    "Family": "app-runner-api-dev",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "devapitaskTaskRoleB7426BD1",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-api-task/Resource"
+   }
+  },
+  "devapitaskExecutionRoleCDB29E37": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-api-task/ExecutionRole/Resource"
+   }
+  },
+  "devapitaskExecutionRoleDefaultPolicy56B7B0C1": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":ecr:ca-central-1:503411876186:repository/app-runner-api"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "devapilogs583191F8",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "devapitaskExecutionRoleDefaultPolicy56B7B0C1",
+    "Roles": [
+     {
+      "Ref": "devapitaskExecutionRoleCDB29E37"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-api-task/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "devwebtaskTaskRole9019E8F2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-web-task/TaskRole/Resource"
+   }
+  },
+  "devwebtaskA2442DB8": {
+   "Type": "AWS::ECS::TaskDefinition",
+   "Properties": {
+    "ContainerDefinitions": [
+     {
+      "Environment": [
+       {
+        "Name": "NODE_ENV",
+        "Value": "dev"
+       },
+       {
+        "Name": "PORT",
+        "Value": "3001"
+       }
+      ],
+      "Essential": true,
+      "Image": {
+       "Fn::Join": [
+        "",
+        [
+         "503411876186.dkr.ecr.ca-central-1.",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/app-runner-web:latest"
+        ]
+       ]
+      },
+      "LogConfiguration": {
+       "LogDriver": "awslogs",
+       "Options": {
+        "awslogs-group": {
+         "Ref": "devweblogs1569C3D2"
+        },
+        "awslogs-stream-prefix": "ecs",
+        "awslogs-region": "ca-central-1"
+       }
+      },
+      "Name": "web",
+      "PortMappings": [
+       {
+        "ContainerPort": 3001,
+        "Protocol": "tcp"
+       }
+      ]
+     }
+    ],
+    "Cpu": "256",
+    "ExecutionRoleArn": {
+     "Fn::GetAtt": [
+      "devwebtaskExecutionRole7C0155C4",
+      "Arn"
+     ]
+    },
+    "Family": "app-runner-web-dev",
+    "Memory": "512",
+    "NetworkMode": "awsvpc",
+    "RequiresCompatibilities": [
+     "FARGATE"
+    ],
+    "TaskRoleArn": {
+     "Fn::GetAtt": [
+      "devwebtaskTaskRole9019E8F2",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-web-task/Resource"
+   }
+  },
+  "devwebtaskExecutionRole7C0155C4": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ecs-tasks.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-web-task/ExecutionRole/Resource"
+   }
+  },
+  "devwebtaskExecutionRoleDefaultPolicy07C32FDB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":ecr:ca-central-1:503411876186:repository/app-runner-web"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "devweblogs1569C3D2",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "devwebtaskExecutionRoleDefaultPolicy07C32FDB",
+    "Roles": [
+     {
+      "Ref": "devwebtaskExecutionRole7C0155C4"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-web-task/ExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "devapiserviceService16297773": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "devcluster594B334F"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "HealthCheckGracePeriodSeconds": 60,
+    "LaunchType": "FARGATE",
+    "LoadBalancers": [
+     {
+      "ContainerName": "api",
+      "ContainerPort": 3000,
+      "TargetGroupArn": {
+       "Ref": "devalbhttpapiGroup465BAB2A"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "devecssg4E8E432A",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Ref": "devvpcdevprivateSubnet1SubnetD0F4920C"
+       },
+       {
+        "Ref": "devvpcdevprivateSubnet2SubnetC0D78214"
+       }
+      ]
+     }
+    },
+    "ServiceName": "app-runner-api-dev",
+    "TaskDefinition": {
+     "Ref": "devapitaskF44EAC0E"
+    }
+   },
+   "DependsOn": [
+    "devalbhttpapiRule8ED30585",
+    "devapitaskTaskRoleB7426BD1"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-api-service/Service"
+   }
+  },
+  "devwebserviceServiceDF25A64F": {
+   "Type": "AWS::ECS::Service",
+   "Properties": {
+    "Cluster": {
+     "Ref": "devcluster594B334F"
+    },
+    "DeploymentConfiguration": {
+     "Alarms": {
+      "AlarmNames": [],
+      "Enable": false,
+      "Rollback": false
+     },
+     "MaximumPercent": 200,
+     "MinimumHealthyPercent": 50
+    },
+    "DesiredCount": 1,
+    "EnableECSManagedTags": false,
+    "HealthCheckGracePeriodSeconds": 60,
+    "LaunchType": "FARGATE",
+    "LoadBalancers": [
+     {
+      "ContainerName": "web",
+      "ContainerPort": 3001,
+      "TargetGroupArn": {
+       "Ref": "devalbhttpwebGroup24196BBD"
+      }
+     }
+    ],
+    "NetworkConfiguration": {
+     "AwsvpcConfiguration": {
+      "AssignPublicIp": "DISABLED",
+      "SecurityGroups": [
+       {
+        "Fn::GetAtt": [
+         "devecssg4E8E432A",
+         "GroupId"
+        ]
+       }
+      ],
+      "Subnets": [
+       {
+        "Ref": "devvpcdevprivateSubnet1SubnetD0F4920C"
+       },
+       {
+        "Ref": "devvpcdevprivateSubnet2SubnetC0D78214"
+       }
+      ]
+     }
+    },
+    "ServiceName": "app-runner-web-dev",
+    "TaskDefinition": {
+     "Ref": "devwebtaskA2442DB8"
+    }
+   },
+   "DependsOn": [
+    "devalbhttpapiGroup465BAB2A",
+    "devalbhttpapiRule8ED30585",
+    "devalbhttp88D16E80",
+    "devalbhttpwebGroup24196BBD",
+    "devwebtaskTaskRole9019E8F2"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/dev-web-service/Service"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/31R0U7DMAz8Ft6zMMoXjAHTJARVh/aK3MwrZllSxc6mqeq/ozZbVxDiyXfni3NxMp3dT/X0Bo48MZvdxFKpm5WA2Sk48keDJtPNujZqvnXrfK7yWFoyq1g6lE67osJHwXcoLV71qzZj9oZAyLvB3IGnZd6VV5AFCB7hpPJABxC8Dl46weBwMKQkZzYTAfO5RydqhSYGktMi+Fj3Gf4Vlq4KyNwqNKybuY0sGDrXBT5DqKCLz7tH3JKjS/jfincC5DCMtPPZFYYDmbSQBLvrgi6w9kziw+kBGJX1FevmxVdD0gtuFVpgIWM9bEqw4Ay56pDpZlbXlky/0BcPm4e+lx7wg499xILu7LngUf8dQoUyZBjTP6YUMf30mLeKYK+bwqdWX3NvyfS/llDbqgLZx5D28haljtIq5zeov/j2kGX6LtPTmy8mmoTohPaoi1S/AfvE0u+uAgAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AppRunnerDevStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ALBDomain": {
+   "Description": "Load Balancer DNS Name",
+   "Value": {
+    "Fn::GetAtt": [
+     "devalbA03094B9",
+     "DNSName"
+    ]
+   },
+   "Export": {
+    "Name": "app-runner-dev-alb-domain"
+   }
+  },
+  "APIServiceArn": {
+   "Description": "API Service ARN",
+   "Value": {
+    "Ref": "devapiserviceService16297773"
+   },
+   "Export": {
+    "Name": "app-runner-dev-api-service-arn"
+   }
+  },
+  "WebServiceArn": {
+   "Description": "Web Service ARN",
+   "Value": {
+    "Ref": "devwebserviceServiceDF25A64F"
+   },
+   "Export": {
+    "Name": "app-runner-dev-web-service-arn"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

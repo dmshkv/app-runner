@@ -36,7 +36,7 @@ AWS_PROFILE=staging make aws-backup
 
 ### What Changed
 
-✅ Removed all hardcoded `dmieshkov` references
+✅ Removed all hardcoded usernames references
 ✅ Scripts now respect `AWS_PROFILE` environment variable
 ✅ Default to `default` profile if not set
 ✅ All documentation uses generic profile names
@@ -46,7 +46,7 @@ AWS_PROFILE=staging make aws-backup
 
 ```bash
 # Add to ~/.zshrc or ~/.bash_profile
-export AWS_PROFILE=dmieshkov
+export AWS_PROFILE={YOUR_PROFILE}
 
 # Then reload shell
 source ~/.zshrc

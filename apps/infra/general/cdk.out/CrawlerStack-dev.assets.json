@@ -1,0 +1,53 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d": {
+      "displayName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code",
+      "source": {
+        "path": "asset.2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "503411876186-ca-central-1-2689e7cb": {
+          "bucketName": "cdk-hnb659fds-assets-503411876186-ca-central-1",
+          "objectKey": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip",
+          "region": "ca-central-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::503411876186:role/cdk-hnb659fds-file-publishing-role-503411876186-ca-central-1"
+        }
+      }
+    },
+    "90ce29dbead8d19bb94cb0f478721760b8dc4b501e593a06332edcf14a3dbbee": {
+      "displayName": "CrawlerStack-dev Template",
+      "source": {
+        "path": "CrawlerStack-dev.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "503411876186-ca-central-1-15237c81": {
+          "bucketName": "cdk-hnb659fds-assets-503411876186-ca-central-1",
+          "objectKey": "90ce29dbead8d19bb94cb0f478721760b8dc4b501e593a06332edcf14a3dbbee.json",
+          "region": "ca-central-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::503411876186:role/cdk-hnb659fds-file-publishing-role-503411876186-ca-central-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {
+    "cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b": {
+      "displayName": "CrawlerFunction/AssetImage",
+      "source": {
+        "directory": "asset.cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b",
+        "dockerFile": "apps/crawler/dataextractor/Dockerfile",
+        "platform": "linux/amd64"
+      },
+      "destinations": {
+        "503411876186-ca-central-1-07633cf2": {
+          "repositoryName": "cdk-hnb659fds-container-assets-503411876186-ca-central-1",
+          "imageTag": "cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b",
+          "region": "ca-central-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::503411876186:role/cdk-hnb659fds-image-publishing-role-503411876186-ca-central-1"
+        }
+      }
+    }
+  }
+}

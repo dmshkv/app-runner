@@ -1,0 +1,342 @@
+{
+ "Description": "Web Crawler and Data Extractor Stack - dev",
+ "Resources": {
+  "CrawlerFunctionServiceRoleD519478C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerFunction/ServiceRole/Resource"
+   }
+  },
+  "CrawlerFunctionServiceRoleDefaultPolicyB8AD36D9": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CrawlerFunctionServiceRoleDefaultPolicyB8AD36D9",
+    "Roles": [
+     {
+      "Ref": "CrawlerFunctionServiceRoleD519478C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CrawlerFunction614391C2": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "ImageUri": {
+      "Fn::Sub": "503411876186.dkr.ecr.ca-central-1.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-503411876186-ca-central-1:cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b"
+     }
+    },
+    "Description": "Web crawler and data extractor using Puppeteer",
+    "Environment": {
+     "Variables": {
+      "NODE_ENV": "dev"
+     }
+    },
+    "FunctionName": "crawler-dataextractor-dev",
+    "MemorySize": 2048,
+    "PackageType": "Image",
+    "Role": {
+     "Fn::GetAtt": [
+      "CrawlerFunctionServiceRoleD519478C",
+      "Arn"
+     ]
+    },
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "CrawlerFunctionServiceRoleDefaultPolicyB8AD36D9",
+    "CrawlerFunctionServiceRoleD519478C"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerFunction/Resource",
+    "aws:asset:path": "asset.cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b",
+    "aws:asset:dockerfile-path": "apps/crawler/dataextractor/Dockerfile",
+    "aws:asset:property": "Code.ImageUri"
+   }
+  },
+  "CrawlerFunctionLogRetentionFFACF70B": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "CrawlerFunction614391C2"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerFunction/LogRetention/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:PutRetentionPolicy",
+        "logs:DeleteRetentionPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "Roles": [
+     {
+      "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Handler": "index.handler",
+    "Runtime": "nodejs22.x",
+    "Timeout": 900,
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-503411876186-ca-central-1",
+     "S3Key": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
+    "aws:asset:path": "asset.2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CrawlerTriggerRule0B25D901": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "Description": "Triggers the crawler Lambda function",
+    "EventPattern": {
+     "source": [
+      "custom.crawler"
+     ],
+     "detail-type": [
+      "CrawlRequest"
+     ]
+    },
+    "Name": "crawler-trigger-dev",
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "CrawlerFunction614391C2",
+        "Arn"
+       ]
+      },
+      "Id": "Target0",
+      "RetryPolicy": {
+       "MaximumRetryAttempts": 2
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerTriggerRule/Resource"
+   }
+  },
+  "CrawlerTriggerRuleAllowEventRuleCrawlerStackdevCrawlerFunctionD022F36721D2F434": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "CrawlerFunction614391C2",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "CrawlerTriggerRule0B25D901",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerTriggerRule/AllowEventRuleCrawlerStackdevCrawlerFunctionD022F367"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02OYYrCQAyFz+L/abbbnkBdFhYWVsYDyDiNJXY6kUlGkdK7S8cV/PUe+d5L0kDT1lCv3E0q3w1VoCNMe3V+MO4mhym48dg5mL7YD5h+Rtfjd45eiaPZnuK732EaSYQ4zobcCJPlgAsouuNA/l5yxc0GfTo4EVSBt+3rZbIwsHhhIeV03zhBE7gX+OXeomIsN6V99Z8laWGT/YBa8njFqAKTzf9f5IDzbCwK5+TRlM5eXU+xL/wFtqf4l/WSdTaRO4SzfFybBj4bqFdnIapSjkojgn3qAzKgs/ZDAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "CrawlerFunctionName": {
+   "Description": "Crawler Lambda function name",
+   "Value": {
+    "Ref": "CrawlerFunction614391C2"
+   }
+  },
+  "CrawlerFunctionArn": {
+   "Description": "Crawler Lambda function ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "CrawlerFunction614391C2",
+     "Arn"
+    ]
+   }
+  },
+  "EventBridgeRuleName": {
+   "Description": "EventBridge rule name",
+   "Value": {
+    "Ref": "CrawlerTriggerRule0B25D901"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,3 @@
+apps/infra/general/cdk.out
+apps/infra/general/lib
+**/cdk.out/**
