@@ -41,6 +41,12 @@ error.log
 testem.log
 /typings
 
+# environment variables
+.env
+.env.local
+.env.*.local
+.env.production.local
+
 # System Files
 .DS_Store
 Thumbs.db
