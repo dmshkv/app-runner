@@ -45,6 +45,10 @@ testem.log
 .env
 .env.local
 .env.*.local
+.env.*.dev
+.env.*.prod
+.env.dev
+.env.prod
 .env.production.local
 
 # System Files
