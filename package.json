@@ -71,10 +71,14 @@
     "webpack-dev-server": "^5.2.2"
   },
   "dependencies": {
+    "@aws-sdk/client-sns": "^3.943.0",
+    "@aws-sdk/client-sqs": "^3.943.0",
     "@module-federation/enhanced": "^0.18.0",
     "@nestjs/common": "^11.0.0",
+    "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/schedule": "^4.1.1",
     "@nestjs/typeorm": "^11.0.0",
     "@sparticuz/chromium": "^141.0.0",
     "axios": "^1.6.0",

@@ -1,0 +1,50 @@
+# CDK output - CRITICAL: exclude to prevent recursive copying
+**/cdk.out
+**/cdk.out/**
+apps/infra/general/cdk.out
+apps/infra/general/lib
+apps/infra/general/node_modules
+
+# Nx cache and build artifacts
+.nx
+.nx/**
+**/node_modules/.cache
+dist
+*.log
+*.tgz
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Tests
+**/__tests__
+**/__fixtures__
+**/__screenshots__
+*.spec.ts
+*.test.ts
+
+# Documentation
+*.md
+!README.md
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Other apps (only include crawler)
+apps/api
+apps/web
+apps/infra
+

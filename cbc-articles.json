@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "url": "https://www.cbc.ca",
+  "title": "CBC.ca - watch, listen, and discover with Canada's Public Broadcaster",
+  "articles": [
+    {
+      "url": "https://www.cbc.ca/news/world/icij-syria-assad-regime-torture-photo-leak-9.7000692",
+      "headline": "CBC InvestigatesThousands of graphic photos reveal the fate of loved ones tortured, disappeared under Assad regime"
+    },
+    {
+      "url": "https://www.cbc.ca/news/world/usmca-cusma-trade-canada-us-mexico-tariffs-9.7002052",
+      "headline": "U.S. producers warn Trump’s tariffs jeopardize their access to Canada, Mexico"
+    },
+    {
+      "url": "https://www.cbc.ca/news/world/trump-venezuela-us-senators-war-powers-9.7002188",
+      "headline": "4 U.S. senators file war powers resolution amid Trump's Venezuela attack threats"
+    },
+    {
+      "url": "https://www.cbc.ca/news/canada/calgary/elizabeth-may-alberta-ottawa-mark-scholz-danielle-smith-9.7002043",
+      "headline": "Why a tax credit in the Ottawa-Alberta energy deal is being called both a 'game changer' and 'betrayal'"
+    },
+    {
+      "url": "https://www.cbc.ca/news/politics/tim-hortons-temporary-foreign-workers-9.7001008",
+      "headline": "Tim Hortons lobbied MPs for more temporary foreign workers over last 18 months"
+    },
+    {
+      "url": "https://www.cbc.ca/news/canada/manitoba/hudsons-bay-charter-sold-auction-9.7001943",
+      "headline": "Try these cosy meals at CBC food trucks at holiday markets this weekend"
+    },
+    {
+      "url": "https://www.cbc.ca/news/canada/british-columbia/conservative-mlas-call-for-john-rustad-to-be-removed-as-leader-9.7001741",
+      "headline": "Want to be a memory maintainer in old age? Here's how, according to experts"
+    },
+    {
+      "url": "https://www.cbc.ca/news/canada/calgary/alberta-covid-vaccine-bill-surprise-9.7000404",
+      "headline": "Want to be a memory maintainer in old age? Here's how, according to experts"
+    },
+    {
+      "url": "https://www.cbc.ca/news/canada/montreal/miller-fed-up-french-language-debate-quebec-legault-9.7000811",
+      "headline": "Explainer: How does FIFA divide 48-team Men’s World Cup field in groups?"
+    },
+    {
+      "url": "https://www.cbc.ca/news/entertainment/spotify-wrapped-2025-9.7001315",
+      "headline": "Alleged National Guard shooter served in CIA-backed 'Zero Unit.' Why that could be a factor"
+    },
+    {
+      "url": "https://www.cbc.ca/news/canada/hamilton/cooney-hamber-trial-milton-9.7000505",
+      "headline": "Alleged National Guard shooter served in CIA-backed 'Zero Unit.' Why that could be a factor"
+    },
+    {
+      "url": "https://www.cbc.ca/news/world/trump-somali-immigrants-9.7001275",
+      "headline": "Alleged National Guard shooter served in CIA-backed 'Zero Unit.' Why that could be a factor"
+    },
+    {
+      "url": "https://www.cbc.ca/news/entertainment/sabrina-carpenter-franklin-the-turtle-trump-9.7000562",
+      "headline": "Sabrina Carpenter condemns Trump administration's use of lyrics after Franklin the turtle backlash"
+    },
+    {
+      "url": "https://www.cbc.ca/news/canada/santa-parade-signs-brantford-9.6999839",
+      "headline": "Sabrina Carpenter condemns Trump administration's use of lyrics after Franklin the turtle backlash"
+    },
+    {
+      "url": "https://www.cbc.ca/news/corrections-clarifications-1.5893564",
+      "headline": "Corrections and Clarifications"
+    },
+    {
+      "url": "https://www.cbc.ca/news/public-appearances-1.4969965",
+      "headline": "Public Appearances"
+    }
+  ],
+  "totalArticles": 16
+}

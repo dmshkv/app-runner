@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MS Learn AI Enhancer</title>
+  <style>
+    body {
+      width: 400px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .subtitle {
+      margin: 0 0 20px 0;
+      opacity: 0.9;
+      font-size: 14px;
+    }
+    
+    .section {
+      background: rgba(255, 255, 255, 0.95);
+      color: #333;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .section h2 {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+      color: #667eea;
+    }
+    
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #28a745;
+      animation: pulse 2s infinite;
+    }
+    
+    .status-indicator.inactive {
+      background: #6c757d;
+      animation: none;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .config-field {
+      margin-bottom: 15px;
+    }
+    
+    .config-field label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      font-size: 13px;
+      color: #495057;
+    }
+    
+    .config-field input,
+    .config-field select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    
+    .config-field input:focus,
+    .config-field select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    button:hover {
+      background: #5568d3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .info {
+      font-size: 12px;
+      color: #6c757d;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: #667eea;
+    }
+    
+    .stat-label {
+      font-size: 11px;
+      color: #6c757d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .link {
+      color: #667eea;
+      text-decoration: none;
+      font-size: 13px;
+      display: inline-block;
+      margin-top: 5px;
+    }
+    
+    .link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📄 Google Docs Offline</h1>
+    <p class="subtitle">Offline document access</p>
+    
+    <div class="section">
+      <h2>Status</h2>
+      <div class="status">
+        <div class="status-indicator" id="statusIndicator"></div>
+        <span id="statusText">Ready</span>
+      </div>
+    </div>
+    
+    <div class="section">
+      <h2>⚙️ AI Configuration</h2>
+      
+      <div class="config-field">
+        <label for="apiKey">OpenAI API Key</label>
+        <input type="password" id="apiKey" placeholder="sk-...">
+        <div class="info" style="margin-top: 5px;">
+          🔒 Stored locally in your browser only
+        </div>
+      </div>
+      
+      <div class="config-field">
+        <label for="model">Model</label>
+        <select id="model">
+          <option value="gpt-4o">GPT-4o (Recommended)</option>
+          <option value="gpt-4o-mini">GPT-4o Mini (Faster, Cheaper)</option>
+          <option value="gpt-4-turbo">GPT-4 Turbo</option>
+          <option value="gpt-4">GPT-4</option>
+          <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+        </select>
+      </div>
+      
+      <button id="saveConfig">💾 Save Configuration</button>
+      <button id="testConnection" style="margin-top: 10px; background: #28a745;">🔌 Test Connection</button>
+      
+      <div id="connectionStatus" class="info" style="margin-top: 10px; display: none;"></div>
+      
+      <div class="info">
+        Version <span id="version">...</span>
+        <br>
+        <span id="updateTime" style="font-size: 10px; opacity: 0.7;"></span>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

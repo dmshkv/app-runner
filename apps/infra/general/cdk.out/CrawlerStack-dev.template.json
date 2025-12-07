@@ -1,6 +1,51 @@
 {
  "Description": "Web Crawler and Data Extractor Stack - dev",
  "Resources": {
+  "CrawlerDLQA3F51DBC": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "MessageRetentionPeriod": 1209600,
+    "QueueName": "crawler-dlq-dev"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerDLQ/Resource"
+   }
+  },
+  "CrawlerCommandQueue9C41D89B": {
+   "Type": "AWS::SQS::Queue",
+   "Properties": {
+    "MessageRetentionPeriod": 345600,
+    "QueueName": "crawler-commands-dev",
+    "ReceiveMessageWaitTimeSeconds": 20,
+    "RedrivePolicy": {
+     "deadLetterTargetArn": {
+      "Fn::GetAtt": [
+       "CrawlerDLQA3F51DBC",
+       "Arn"
+      ]
+     },
+     "maxReceiveCount": 3
+    },
+    "VisibilityTimeout": 900
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerCommandQueue/Resource"
+   }
+  },
+  "CrawlerResultsTopicA77CD6BF": {
+   "Type": "AWS::SNS::Topic",
+   "Properties": {
+    "DisplayName": "Crawler Results Notifications",
+    "TopicName": "crawler-results-dev"
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerResultsTopic/Resource"
+   }
+  },
   "CrawlerFunctionServiceRoleD519478C": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -48,6 +93,29 @@
        ],
        "Effect": "Allow",
        "Resource": "*"
+      },
+      {
+       "Action": [
+        "sqs:ReceiveMessage",
+        "sqs:ChangeMessageVisibility",
+        "sqs:GetQueueUrl",
+        "sqs:DeleteMessage",
+        "sqs:GetQueueAttributes"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "CrawlerCommandQueue9C41D89B",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "sns:Publish",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "CrawlerResultsTopicA77CD6BF"
+       }
       }
      ],
      "Version": "2012-10-17"
@@ -71,13 +139,19 @@
     ],
     "Code": {
      "ImageUri": {
-      "Fn::Sub": "503411876186.dkr.ecr.ca-central-1.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-503411876186-ca-central-1:cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b"
+      "Fn::Sub": "503411876186.dkr.ecr.ca-central-1.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-503411876186-ca-central-1:2a24e124db75df44cf731613bc1e27397e6495b3169da4f2679ce237ebc81ac7"
      }
     },
     "Description": "Web crawler and data extractor using Puppeteer",
     "Environment": {
      "Variables": {
-      "NODE_ENV": "dev"
+      "NODE_ENV": "dev",
+      "SQS_QUEUE_URL": {
+       "Ref": "CrawlerCommandQueue9C41D89B"
+      },
+      "SNS_TOPIC_ARN": {
+       "Ref": "CrawlerResultsTopicA77CD6BF"
+      }
      }
     },
     "FunctionName": "crawler-dataextractor-dev",
@@ -89,7 +163,7 @@
       "Arn"
      ]
     },
-    "Timeout": 300
+    "Timeout": 900
    },
    "DependsOn": [
     "CrawlerFunctionServiceRoleDefaultPolicyB8AD36D9",
@@ -97,7 +171,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "CrawlerStack-dev/CrawlerFunction/Resource",
-    "aws:asset:path": "asset.cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b",
+    "aws:asset:path": "asset.2a24e124db75df44cf731613bc1e27397e6495b3169da4f2679ce237ebc81ac7",
     "aws:asset:dockerfile-path": "apps/crawler/dataextractor/Dockerfile",
     "aws:asset:property": "Code.ImageUri"
    }
@@ -126,6 +200,28 @@
    },
    "Metadata": {
     "aws:cdk:path": "CrawlerStack-dev/CrawlerFunction/LogRetention/Resource"
+   }
+  },
+  "CrawlerFunctionSqsEventSourceCrawlerStackdevCrawlerCommandQueue44B0966794681DC6": {
+   "Type": "AWS::Lambda::EventSourceMapping",
+   "Properties": {
+    "BatchSize": 1,
+    "EventSourceArn": {
+     "Fn::GetAtt": [
+      "CrawlerCommandQueue9C41D89B",
+      "Arn"
+     ]
+    },
+    "FunctionName": {
+     "Ref": "CrawlerFunction614391C2"
+    },
+    "FunctionResponseTypes": [
+     "ReportBatchItemFailures"
+    ],
+    "MaximumBatchingWindowInSeconds": 0
+   },
+   "Metadata": {
+    "aws:cdk:path": "CrawlerStack-dev/CrawlerFunction/SqsEventSource:CrawlerStackdevCrawlerCommandQueue44B09667/Resource"
    }
   },
   "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
@@ -275,7 +371,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02OYYrCQAyFz+L/abbbnkBdFhYWVsYDyDiNJXY6kUlGkdK7S8cV/PUe+d5L0kDT1lCv3E0q3w1VoCNMe3V+MO4mhym48dg5mL7YD5h+Rtfjd45eiaPZnuK732EaSYQ4zobcCJPlgAsouuNA/l5yxc0GfTo4EVSBt+3rZbIwsHhhIeV03zhBE7gX+OXeomIsN6V99Z8laWGT/YBa8njFqAKTzf9f5IDzbCwK5+TRlM5eXU+xL/wFtqf4l/WSdTaRO4SzfFybBj4bqFdnIapSjkojgn3qAzKgs/ZDAQAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22OTW7CMBCFz8LeTNPkBIW2ElKrUqd7ZJwhMnE8qccGIct3r2Io6qKr9/R+pK+GuqmgWqgzL3U3LK3ZQ2qD0oNQZ94l/mZInxEjivXBFZMFO4b0RZPRc1hMFlaN+05BeiY9oN+MqsfX6HQw5ObV3b+c0IWWotf4rqbJuH6u/0+36EfDbMhlYdQISZItIEW3ZI2+lF1xWaD2O8WMgeEPxtOczB1InIhNIH9ZKUZhqWd4o15iQFfguPn9X0/cwCrqAUPZ4wzJkGS8UUSLOQuJXMBF+bRB9Tf8e7E+uI8YphiycNQhHPnhVNfwWEO1OLIxSx9dMCOCvOoP0lzFXpYBAAA="
    },
    "Metadata": {
     "aws:cdk:path": "CrawlerStack-dev/CDKMetadata/Default"
@@ -302,6 +398,33 @@
    "Description": "EventBridge rule name",
    "Value": {
     "Ref": "CrawlerTriggerRule0B25D901"
+   }
+  },
+  "CommandQueueUrl": {
+   "Description": "SQS Command Queue URL",
+   "Value": {
+    "Ref": "CrawlerCommandQueue9C41D89B"
+   }
+  },
+  "CommandQueueArn": {
+   "Description": "SQS Command Queue ARN",
+   "Value": {
+    "Fn::GetAtt": [
+     "CrawlerCommandQueue9C41D89B",
+     "Arn"
+    ]
+   }
+  },
+  "DeadLetterQueueUrl": {
+   "Description": "Dead Letter Queue URL",
+   "Value": {
+    "Ref": "CrawlerDLQA3F51DBC"
+   }
+  },
+  "ResultsTopicArn": {
+   "Description": "SNS Results Topic ARN",
+   "Value": {
+    "Ref": "CrawlerResultsTopicA77CD6BF"
    }
   }
  },

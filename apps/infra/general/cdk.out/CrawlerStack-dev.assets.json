@@ -16,16 +16,16 @@
         }
       }
     },
-    "90ce29dbead8d19bb94cb0f478721760b8dc4b501e593a06332edcf14a3dbbee": {
+    "1e35f5c69663a97628b85bef0b1d71106bda368e9d2417ba5542150c4da4bbfd": {
       "displayName": "CrawlerStack-dev Template",
       "source": {
         "path": "CrawlerStack-dev.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "503411876186-ca-central-1-15237c81": {
+        "503411876186-ca-central-1-5f182fd4": {
           "bucketName": "cdk-hnb659fds-assets-503411876186-ca-central-1",
-          "objectKey": "90ce29dbead8d19bb94cb0f478721760b8dc4b501e593a06332edcf14a3dbbee.json",
+          "objectKey": "1e35f5c69663a97628b85bef0b1d71106bda368e9d2417ba5542150c4da4bbfd.json",
           "region": "ca-central-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::503411876186:role/cdk-hnb659fds-file-publishing-role-503411876186-ca-central-1"
         }
@@ -33,17 +33,17 @@
     }
   },
   "dockerImages": {
-    "cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b": {
+    "2a24e124db75df44cf731613bc1e27397e6495b3169da4f2679ce237ebc81ac7": {
       "displayName": "CrawlerFunction/AssetImage",
       "source": {
-        "directory": "asset.cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b",
+        "directory": "asset.2a24e124db75df44cf731613bc1e27397e6495b3169da4f2679ce237ebc81ac7",
         "dockerFile": "apps/crawler/dataextractor/Dockerfile",
         "platform": "linux/amd64"
       },
       "destinations": {
-        "503411876186-ca-central-1-07633cf2": {
+        "503411876186-ca-central-1-27fdf3ba": {
           "repositoryName": "cdk-hnb659fds-container-assets-503411876186-ca-central-1",
-          "imageTag": "cf679358a8fa80e2847b740ac5182877de58dc88d085d0c9b793caef94c8ea7b",
+          "imageTag": "2a24e124db75df44cf731613bc1e27397e6495b3169da4f2679ce237ebc81ac7",
           "region": "ca-central-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::503411876186:role/cdk-hnb659fds-image-publishing-role-503411876186-ca-central-1"
         }

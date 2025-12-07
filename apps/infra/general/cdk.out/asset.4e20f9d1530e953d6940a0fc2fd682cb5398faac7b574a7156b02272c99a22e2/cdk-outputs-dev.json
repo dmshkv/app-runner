@@ -1,0 +1,9 @@
+{
+  "app-runner-ec2-dev": {
+    "ALBURL": "http://app-runner-api-dev-83692508.ca-central-1.elb.amazonaws.com/api",
+    "VpcId": "vpc-07a13a403ad49ce6f",
+    "ALBDomain": "app-runner-api-dev-83692508.ca-central-1.elb.amazonaws.com",
+    "AutoScalingGroupName": "app-runner-ec2-dev-devapiasgASG6CD36701-4wVEXNaP5dlu",
+    "SecurityGroupId": "sg-0a49f1b5e3bf16d05"
+  }
+}

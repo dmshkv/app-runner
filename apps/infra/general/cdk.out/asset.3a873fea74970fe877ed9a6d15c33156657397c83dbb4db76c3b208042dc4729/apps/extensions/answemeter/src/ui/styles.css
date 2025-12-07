@@ -1,0 +1,22 @@
+/* Google Docs Offline - Minimal Stealth Styles */
+
+/* STEALTH MODE: Minimal visual changes only */
+/* No visible badges, boxes, or obvious modifications */
+
+/* Subtle answer indicator - barely noticeable */
+[data-answer] {
+  position: relative;
+}
+
+/* Optional: Add tiny corner marker (almost invisible) */
+[data-answer]::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 4px;
+  height: 4px;
+  background: rgba(76, 175, 80, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+}
